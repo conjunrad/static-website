@@ -1,1 +1,1 @@
-Hello, it's new documentation!
+Let's try merge conficts!
