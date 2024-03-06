@@ -1,0 +1,34 @@
+name: Deploy workflow
+
+on:
+  push:
+    branch: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build project
+      run: echo "Building my own project.....[OK]" > build/output.txt
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: my-build
+        path: ./build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: my-build
+    
+    - name: Use artifacts
+      run: |
+        ls -lha
+        cat ./build/output.txt

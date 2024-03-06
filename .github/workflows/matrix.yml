@@ -3,7 +3,7 @@ name: Matrix
 on:
   push:
     branch:
-      - main
+      - new_feature
 
 jobs:
   build:
@@ -11,9 +11,16 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
+
     runs-on: ${{ matrix.os }}
     steps:
     - name: Check node JS version and OS dist
       run: |
         echo "nodeJS version: ${{ matrix.node-version }}"
         echo "OS dist: ${{ matrix.os }}"
+
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo runner.os
+      run: echo ${{ runner.os }}

@@ -1,6 +1,9 @@
 name: First workflow
 
-# on: [push]
+on:
+  push:
+    branch:
+      - new_feature
 
 jobs:
   first-job:
