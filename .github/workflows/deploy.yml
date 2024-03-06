@@ -32,4 +32,4 @@ jobs:
     - name: Use artifacts
       run: |
         ls -lha
-        cat ./build/output.txt
+        cat ./output.txt
