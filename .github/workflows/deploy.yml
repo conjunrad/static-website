@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build project
-      run: echo "Building my own project.....[OK]" > build/output.txt
+      run: mkdir build && echo "Building my own project.....[OK]" > build/output.txt
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
