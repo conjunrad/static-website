@@ -23,6 +23,7 @@ jobs:
           path: artifact
 
   deploy:
+    need: build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
