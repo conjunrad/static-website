@@ -72,4 +72,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_SECRET }}
           port: 22
-          script: "cd /tmp/ && tar -zxfm ${{ github.sha }}.tar.gz && rsync -az ./index.html /var/www/html/index.nginx-debian.html && rm style.css index.html"
+          script: "cd /tmp/ && tar zxvfm ${{ github.sha }}.tar.gz && rsync -az ./index.html /var/www/html/index.nginx-debian.html && rm style.css index.html && sudo service nginx restart"
