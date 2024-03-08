@@ -55,4 +55,21 @@ jobs:
       - name: Fetch EC2 IP
         run: |
           IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=nginx" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
-          echo "IP: ${IP}"
+          echo "IP=${IP}" >> $GITHUB_ENV
+
+      - name: Send build to EC2
+        run: |
+          rsync -e "-o StrictHostKeyChecking=no" \
+            -i ~/.ssh/id_rsa -a \
+            artifact/${{ github.sha }}.tar.gz \
+            ubuntu@${{ env.IP }}:/tmp/
+        
+
+      - name: Run deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_SECRET }}
+          port: 22
+          script: "cd /tmp/artifact/ && tar -zxf ${{ github.sha }}.tar.gz"
