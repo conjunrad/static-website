@@ -13,15 +13,23 @@ jobs:
       - name: Show project dir
         run: ls -lha
 
-      # - name: Archieve artifact
-      #   run: mkdir -p ./artifact && cd 
+      - name: Archieve artifact
+        run: mkdir -p ./artifact && cd build && tar -zcf ../artifact/${{ github.sha }}.tar.gz .
 
-      # - name: Upload artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: html-build
-      #     path: 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-build
+          path: artifact
 
-  # deploy:
-  #   run-on: ubuntu-latest
-  #   steps:
+  deploy:
+    run-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: html-build
+          path: artifact
+
+      - name: Show dir
+        run: pwd && ls -lha
