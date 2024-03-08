@@ -33,3 +33,25 @@ jobs:
 
       - name: Show dir
         run: pwd && ls -lha
+
+      - name: Install AWS CLI
+        run: sudo apt install -y awscli
+
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_accees_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-west-1
+
+      - name: Write private key to file
+        run: |
+          mkdir ~/.ssh/
+          echo "${{ secrets.SSH_SECRET }} > ~/.ssh/id_rsa"
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+
+      - name: Fetch EC2 IP
+        run: |
+          IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=nginx" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+          echo "IP: ${IP}"
