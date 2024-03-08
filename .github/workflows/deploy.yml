@@ -1,35 +1,27 @@
-name: Deploy workflow
-run-name: Deploy workflow
+name: Build & Deploy to AWS EC2
+run-name: Build & Deploy to AWS EC2
 
-on:
-  push:
-    branch: [main]
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    run-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - name: Clone the project
+        uses: actions/checkout@v4
 
-    - name: Build project
-      run: mkdir build && echo "Building my own project.....[OK]" > build/output.txt
+      - name: Show project dir
+        run: ls -lha
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: my-build
-        path: ./build
+      # - name: Archieve artifact
+      #   run: mkdir -p ./artifact && cd 
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: my-build
-    
-    - name: Use artifacts
-      run: |
-        ls -lha
-        cat ./output.txt
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: html-build
+      #     path: 
+
+  # deploy:
+  #   run-on: ubuntu-latest
+  #   steps:
