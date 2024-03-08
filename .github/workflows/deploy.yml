@@ -46,7 +46,7 @@ jobs:
       - name: Write private key to file
         run: |
           mkdir ~/.ssh/
-          echo "${{ secrets.SSH_SECRET }} > ~/.ssh/id_rsa"
+          echo "${{ secrets.SSH_SECRET }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
