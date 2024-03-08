@@ -60,9 +60,9 @@ jobs:
       - name: Send build to EC2
         run: |
           rsync -e "-o StrictHostKeyChecking=no" \
-            -i ~/.ssh/id_rsa -a \
-            artifact/${{ github.sha }}.tar.gz \
-            ubuntu@${{ env.IP }}:/tmp/
+          -i ~/.ssh/id_rsa -az \
+          artifact/${{ github.sha }}.tar.gz \
+          ubuntu@${{ env.IP }}:/tmp/
         
 
       - name: Run deploy
